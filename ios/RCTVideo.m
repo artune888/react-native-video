@@ -364,6 +364,8 @@ static NSString *const timedMetadata = @"timedMetadata";
         NSObject *width = @"undefined";
         NSObject *height = @"undefined";
         NSString *orientation = @"undefined";
+        NSObject *presentationWidth = @"undefined";
+        NSObject *presentationHeight = @"undefined";
 
         if ([_playerItem.asset tracksWithMediaType:AVMediaTypeVideo].count > 0) {
           AVAssetTrack *videoTrack = [[_playerItem.asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
@@ -380,6 +382,9 @@ static NSString *const timedMetadata = @"timedMetadata";
             orientation = @"portrait";
         }
 
+        presentationWidth = [NSNumber numberWithFloat:_playerItem.presentationSize.width];
+        presentationHeight = [NSNumber numberWithFloat:_playerItem.presentationSize.height];
+
       if(self.onVideoLoad) {
           self.onVideoLoad(@{@"duration": [NSNumber numberWithFloat:duration],
                              @"currentTime": [NSNumber numberWithFloat:CMTimeGetSeconds(_playerItem.currentTime)],
@@ -392,6 +397,11 @@ static NSString *const timedMetadata = @"timedMetadata";
                              @"naturalSize": @{
                                      @"width": width,
                                      @"height": height,
+                                     @"orientation": orientation
+                                     },
+                             @"presentationSize": @{
+                                     @"width": presentationWidth,
+                                     @"height": presentationHeight,
                                      @"orientation": orientation
                                      },
                              @"target": self.reactTag});
